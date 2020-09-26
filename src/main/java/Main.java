@@ -14,16 +14,23 @@ public class Main {
 
         Runnable client = () -> {
             try {
-                new SocketClient().startClient("7777");
-            } catch (IOException | InterruptedException e) {
+                new SocketClient().startClient("2");
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         };
 
         new Thread(server).start();
-        Thread.sleep(3000);
-        new Thread(client, "client-funcF").start();
-        new Thread(client, "client-funcG").start();
+        Thread.sleep(3000); /* Waiting for starting server */
+
+        Thread threadFuncF = new Thread(client, "funcF");
+        Thread threadFuncG = new Thread(client, "funcG");
+
+        threadFuncF.start();
+        threadFuncG.start();
+        threadFuncF.join();
+        threadFuncG.join();
+        System.out.println();
     }
 }
 

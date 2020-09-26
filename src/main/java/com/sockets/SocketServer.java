@@ -10,6 +10,7 @@ public class SocketServer {
     private Selector selector;
     private final Map<SocketChannel, List> dataMapper;
     private final InetSocketAddress listenAddress;
+    private int result = 0;
 
     public SocketServer(String address, int port) throws IOException {
         listenAddress = new InetSocketAddress(address, port);
@@ -60,7 +61,8 @@ public class SocketServer {
     private void accept(SelectionKey key) throws IOException {
         ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
         SocketChannel channel = serverChannel.accept();
-        channel.configureBlocking(false);
+
+        channel.configureBlocking(false); /* NIO mode */
         System.out.println("Server connected with client");
 
         /* Register channel with selector for further IO */
@@ -68,24 +70,35 @@ public class SocketServer {
         channel.register(this.selector, SelectionKey.OP_READ);
     }
 
-    //read from the socket channel
-    private void read(SelectionKey key) throws IOException {
+    /* Read from the socket channel */
+    private void read(SelectionKey key) throws IOException, NumberFormatException {
         SocketChannel channel = (SocketChannel) key.channel();
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        ByteBuffer buffer = ByteBuffer.allocate(128);
 
         int numRead = -1;
-        numRead = channel.read(buffer); /* Number of bytes read */
+        numRead = channel.read(buffer); /* Number of reading bytes */
 
         if (numRead == -1) {
             this.dataMapper.remove(channel);
-            Socket socket = channel.socket();
-            SocketAddress remoteAddr = socket.getRemoteSocketAddress();
-            System.out.println("Connection closed by client: " + remoteAddr);
+            System.out.println("Connection closed by client ... ");
             channel.close();
             key.cancel();
             return;
         }
 
-        System.out.println("Server got number from client: " + new String(buffer.array()));
+        try {
+            byte[] data = new byte[numRead];
+            System.arraycopy(buffer.array(), 0, data, 0, numRead);
+            Integer funcCalculationResult = Integer.valueOf(new String(data));
+
+            this.result += funcCalculationResult;
+            System.out.println("Server got from client: " + x);
+        } catch (NumberFormatException e) {
+            System.out.println("Provided value is not a number");
+        }
+    }
+
+    public int getResult() {
+        return this.result;
     }
 }

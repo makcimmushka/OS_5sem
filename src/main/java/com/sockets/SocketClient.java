@@ -6,23 +6,37 @@ import java.nio.ByteBuffer;
 import java.nio.channels.*;
 
 public class SocketClient {
-    public void startClient(String message)
-            throws IOException, InterruptedException {
+    private Integer x;
+
+    public void startClient(String message) throws IOException {
         InetSocketAddress hostAddress = new InetSocketAddress("localhost", 7777);
         SocketChannel client = SocketChannel.open();
         client.connect(hostAddress);
 
-        System.out.println(Thread.currentThread().getName() + " started ...");
+        this.x = Integer.parseInt(message);
+        String threadName = Thread.currentThread().getName();
+
+        byte[] bytes = {};
+
+        if (threadName.equals("funcF")) {
+            bytes = String.valueOf(this.funcF()).getBytes();
+        } else if (threadName.equals("funcG")) {
+            bytes = String.valueOf(this.funcG()).getBytes();
+        }
 
         /* Send message to server */
-        byte[] bytes = message.getBytes();
-
         ByteBuffer buffer = ByteBuffer.wrap(bytes);
         client.write(buffer);
-        System.out.println("Argument X was written");
         buffer.clear();
-        Thread.sleep(1500);
 
         client.close();
+    }
+
+    private int funcF() {
+        return 3 * this.x; /* Mock funcF implementation */
+    }
+
+    private int funcG() {
+        return this.x * this.x; /* Mock funcG implementation */
     }
 }
