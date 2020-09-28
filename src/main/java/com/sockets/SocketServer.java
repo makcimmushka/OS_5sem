@@ -5,12 +5,14 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SocketServer {
     private Selector selector;
     private final Map<SocketChannel, List> dataMapper;
     private final InetSocketAddress listenAddress;
-    private int result = 0;
+    private volatile int result = 0;
+    private int readingClientsAmount = 0;
 
     public SocketServer(String address, int port) throws IOException {
         listenAddress = new InetSocketAddress(address, port);
@@ -29,7 +31,7 @@ public class SocketServer {
 
         System.out.println("Server started...");
 
-        while (true) {
+        while (this.readingClientsAmount < 2) {
             /* Wait for events */
             this.selector.select();
 
@@ -58,47 +60,46 @@ public class SocketServer {
     }
 
     /* Accept a connection made to this channel's socket */
-    private void accept(SelectionKey key) throws IOException {
+    private synchronized void accept(SelectionKey key) throws IOException {
         ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
         SocketChannel channel = serverChannel.accept();
 
         channel.configureBlocking(false); /* NIO mode */
         System.out.println("Server connected with client");
 
-        /* Register channel with selector for further IO */
+        /* Register channel with selector for further IO operations */
         dataMapper.put(channel, new ArrayList<>());
         channel.register(this.selector, SelectionKey.OP_READ);
     }
 
     /* Read from the socket channel */
-    private void read(SelectionKey key) throws IOException, NumberFormatException {
+    private synchronized void read(SelectionKey key) throws IOException, NumberFormatException {
         SocketChannel channel = (SocketChannel) key.channel();
         ByteBuffer buffer = ByteBuffer.allocate(128);
 
-        int numRead = -1;
-        numRead = channel.read(buffer); /* Number of reading bytes */
-
-        if (numRead == -1) {
-            this.dataMapper.remove(channel);
-            System.out.println("Connection closed by client ... ");
-            channel.close();
-            key.cancel();
-            return;
-        }
+        int numRead = channel.read(buffer); /* Number of reading bytes */
 
         try {
-            byte[] data = new byte[numRead];
-            System.arraycopy(buffer.array(), 0, data, 0, numRead);
-            Integer funcCalculationResult = Integer.valueOf(new String(data));
+                byte[] data = new byte[numRead];
+                System.arraycopy(buffer.array(), 0, data, 0, numRead);
+                int funcCalculationResult = Integer.parseInt(new String(data));
 
-            this.result += funcCalculationResult;
-            System.out.println("Server got from client: " + x);
+                this.result += funcCalculationResult;
+
+                System.out.println("Server got from client: " + funcCalculationResult);
         } catch (NumberFormatException e) {
             System.out.println("Provided value is not a number");
         }
+
+        this.readingClientsAmount++;
+
+        this.dataMapper.remove(channel);
+        System.out.println("Connection closed by client ... ");
+        channel.close();
+        key.cancel();
     }
 
-    public int getResult() {
+    public synchronized int getResult() {
         return this.result;
     }
 }
