@@ -6,22 +6,19 @@ import java.nio.ByteBuffer;
 import java.nio.channels.*;
 
 public class SocketClient {
-    private Integer x;
-
-    public void startClient(String message) throws IOException {
+    public void startClient(int variant) throws IOException, InterruptedException {
         InetSocketAddress hostAddress = new InetSocketAddress("localhost", 7777);
         SocketChannel client = SocketChannel.open();
         client.connect(hostAddress);
 
-        this.x = Integer.parseInt(message);
         String threadName = Thread.currentThread().getName();
 
         byte[] bytes = {};
 
         if (threadName.equals("funcF")) {
-            bytes = String.valueOf(this.funcF()).getBytes();
+            bytes = String.valueOf(this.customFuncF(variant)).getBytes();
         } else if (threadName.equals("funcG")) {
-            bytes = String.valueOf(this.funcG()).getBytes();
+            bytes = String.valueOf(this.customFuncG(variant)).getBytes();
         }
 
         /* Send message to server */
@@ -32,11 +29,51 @@ public class SocketClient {
         client.close();
     }
 
-    private int funcF() {
-        return 3 * this.x; /* Mock funcF implementation */
+    private Integer customFuncF(int variant) throws InterruptedException {
+        /* Returned value = variant * 10 */
+        switch (variant) {
+            case 1:
+                Thread.sleep(5000);
+                return 10;
+            case 2:
+                Thread.sleep(10000);
+                return 20;
+            case 3:
+                Thread.sleep(5000);
+                return 0;
+            case 4:
+            case 6:
+                Thread.sleep(5000);
+                return null;
+            case 5:
+                Thread.sleep(5000);
+                return 50;
+            default:
+                return null;
+        }
     }
 
-    private int funcG() {
-        return this.x * this.x; /* Mock funcG implementation */
+    private Integer customFuncG(int variant) throws InterruptedException {
+        /* Returned value = variant * 100 */
+            switch (variant) {
+                case 1:
+                    Thread.sleep(10000);
+                    return 100;
+                case 2:
+                    Thread.sleep(5000);
+                    return 200;
+                case 3:
+                case 5:
+                    Thread.sleep(5000);
+                    return null;
+                case 4:
+                    Thread.sleep(5000);
+                    return 0;
+                case 6:
+                    Thread.sleep(5000);
+                    return 600;
+                default:
+                    return null;
+            }
     }
 }
