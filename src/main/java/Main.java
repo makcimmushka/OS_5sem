@@ -7,6 +7,11 @@ public class Main {
         SocketServer socketServer = new SocketServer("localhost", 7777);
         SocketClient socketClient = new SocketClient();
 
+        Demonstration demo = new Demonstration();
+
+        demo.showVariants();
+        int variant = demo.inputVariant(); /* try-catch TODO ... */
+
         Runnable server = () -> {
             try {
                 socketServer.startServer();
@@ -17,8 +22,8 @@ public class Main {
 
         Runnable client = () -> {
             try {
-                socketClient.startClient("2");
-            } catch (IOException e) {
+                socketClient.startClient(variant);
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         };
@@ -38,7 +43,7 @@ public class Main {
         threadFuncG.join();
         threadMain.join();
 
-        System.out.println("Result is: " + socketServer.getResult());
+        System.out.println("Multiplication is: " + socketServer.getMultiplication());
     }
 }
 
