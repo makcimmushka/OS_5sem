@@ -92,12 +92,13 @@ public class SocketServer {
         String funcName = funcCalculationData[0];
         String funcCalculationResult = funcCalculationData[1];
 
-        System.out.println("Got " + funcCalculationResult + " from " + funcName + " , stop computation ...");
-
         /* If we got zero or undefined from func computation, we shouldn't wait for another one */
         if (funcCalculationResult.equals("0") || funcCalculationResult.equals(Constants.UNDEFINED)) {
+            System.out.println("Got " + funcCalculationResult + " from " + funcName + " , stop computation ...");
             this.isProcessingRequests = false;
             return;
+        } else {
+            System.out.println("Got " + funcCalculationResult + " from " + funcName);
         }
 
         this.multiplication *= Integer.parseInt(funcCalculationResult);

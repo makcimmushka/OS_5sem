@@ -1,9 +1,12 @@
 package com.sockets;
 
+import com.constants.Constants;
+
 import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
+import java.util.Arrays;
 
 public class SocketClient {
     public void startClient(int variant) throws IOException, InterruptedException {
@@ -15,10 +18,30 @@ public class SocketClient {
 
         byte[] bytes = {};
 
-        if (threadName.equals("funcF")) {
-            bytes = String.valueOf(this.customFuncF(variant)).getBytes();
-        } else if (threadName.equals("funcG")) {
-            bytes = String.valueOf(this.customFuncG(variant)).getBytes();
+        if (threadName.equals(Constants.FUNC_F)) {
+            Integer funcFResult = this.customFuncF(variant);
+
+            String message;
+
+            if (funcFResult == null) {
+                message = Arrays.toString(new String[]{Constants.FUNC_F, Constants.UNDEFINED});
+            } else {
+                message = Arrays.toString(new String[]{Constants.FUNC_F, funcFResult.toString()});
+            }
+
+            bytes = message.getBytes();
+        } else if (threadName.equals(Constants.FUNC_G)) {
+            Integer funcGResult = this.customFuncG(variant);
+
+            String message;
+
+            if (funcGResult == null) {
+                message = Arrays.toString(new String[]{Constants.FUNC_G, Constants.UNDEFINED});
+            } else {
+                message = Arrays.toString(new String[]{Constants.FUNC_G, funcGResult.toString()});
+            }
+
+            bytes = message.getBytes();
         }
 
         /* Send message to server */

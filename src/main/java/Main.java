@@ -1,7 +1,10 @@
 import java.io.IOException;
+
+import com.constants.Constants;
 import com.sockets.*;
 
 
+/* Move this logic to MainManager class */
 public class Main {
     public static void main(String[] args) throws Exception {
         SocketServer socketServer = new SocketServer("localhost", 7777);
@@ -30,8 +33,8 @@ public class Main {
 
         Thread threadMain = new Thread(server);
 
-        Thread threadFuncF = new Thread(client, "funcF");
-        Thread threadFuncG = new Thread(client, "funcG");
+        Thread threadFuncF = new Thread(client, Constants.FUNC_F);
+        Thread threadFuncG = new Thread(client, Constants.FUNC_G);
 
         threadMain.start();
         Thread.sleep(3000); /* Waiting for starting server */
