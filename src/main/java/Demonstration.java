@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Demonstration {
@@ -11,12 +12,17 @@ public class Demonstration {
         System.out.println("6. g finishes with non zero value, f hangs");
     }
 
-    public int inputVariant() {
-        int variant;
-        Scanner selector = new Scanner(System.in);
+    public Integer inputVariant() {
+        try {
+            int variant;
+            Scanner selector = new Scanner(System.in);
 
-        variant = selector.nextInt();
+            System.out.print("\nEnter number of variant: ");
+            variant = selector.nextInt();
 
-        return variant;
+            return variant >= 1 && variant <= 6 ? variant : null;
+        } catch (InputMismatchException e) {
+            return null;
+        }
     }
 }
