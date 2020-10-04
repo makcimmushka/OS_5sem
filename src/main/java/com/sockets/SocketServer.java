@@ -5,18 +5,22 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+
+import com.constants.Constants;
+import com.google.gson.Gson;
+
 
 public class SocketServer {
     private Selector selector;
-    private final Map<SocketChannel, List> dataMapper;
+    private final Map<SocketChannel, List> channelMapper;
     private final InetSocketAddress listenAddress;
-    private volatile int result = 0;
-    private int readingClientsAmount = 0;
+    private int multiplication = 1;
+    private int processedClientsAmount = 0;
+    private boolean isProcessingRequests = true;
 
-    public SocketServer(String address, int port) throws IOException {
-        listenAddress = new InetSocketAddress(address, port);
-        dataMapper = new HashMap<>();
+    public SocketServer(String address, int port) {
+        this.listenAddress = new InetSocketAddress(address, port);
+        this.channelMapper = new HashMap<>();
     }
 
     /* Create server channel */
@@ -29,18 +33,20 @@ public class SocketServer {
         serverChannel.socket().bind(listenAddress);
         serverChannel.register(this.selector, SelectionKey.OP_ACCEPT);
 
-        System.out.println("Server started...");
+        System.out.println("Server started ...");
 
-        while (this.readingClientsAmount < 2) {
+        /* Accept only two sockets for funcF and funcG calculations */
+        outer: while (this.processedClientsAmount < 2) {
             /* Wait for events */
             this.selector.select();
 
-            /* Work on selected keys */
+            /* Iterate through keys */
             Iterator keys = this.selector.selectedKeys().iterator();
+
             while (keys.hasNext()) {
                 SelectionKey key = (SelectionKey) keys.next();
 
-                /* This is necessary to prevent the same key from coming up
+                /* Prevent the same key from coming up
                     again the next time around. */
                 keys.remove();
 
@@ -54,9 +60,15 @@ public class SocketServer {
 
                 else if (key.isReadable()) {
                     this.read(key);
+
+                    if (!this.isProcessingRequests) {
+                        break outer;
+                    }
                 }
             }
         }
+
+        serverChannel.close();
     }
 
     /* Accept a connection made to this channel's socket */
@@ -64,42 +76,54 @@ public class SocketServer {
         ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
         SocketChannel channel = serverChannel.accept();
 
-        channel.configureBlocking(false); /* NIO mode */
-        System.out.println("Server connected with client");
+        channel.configureBlocking(false); /* NIO mode for server */
+        System.out.println("Server connected with client ...");
 
-        /* Register channel with selector for further IO operations */
-        dataMapper.put(channel, new ArrayList<>());
+        /* Register channel with selector for further IO read operation */
+        this.channelMapper.put(channel, new ArrayList<>());
         channel.register(this.selector, SelectionKey.OP_READ);
     }
 
     /* Read from the socket channel */
-    private synchronized void read(SelectionKey key) throws IOException, NumberFormatException {
+    private synchronized void read(SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
-        ByteBuffer buffer = ByteBuffer.allocate(128);
+        String[] funcCalculationData = this.getComputationData(channel);
 
-        int numRead = channel.read(buffer); /* Number of reading bytes */
+        String funcName = funcCalculationData[0];
+        String funcCalculationResult = funcCalculationData[1];
 
-        try {
-                byte[] data = new byte[numRead];
-                System.arraycopy(buffer.array(), 0, data, 0, numRead);
-                int funcCalculationResult = Integer.parseInt(new String(data));
+        System.out.println("Got " + funcCalculationResult + " from " + funcName + " , stop computation ...");
 
-                this.result += funcCalculationResult;
-
-                System.out.println("Server got from client: " + funcCalculationResult);
-        } catch (NumberFormatException e) {
-            System.out.println("Provided value is not a number");
+        /* If we got zero or undefined from func computation, we shouldn't wait for another one */
+        if (funcCalculationResult.equals("0") || funcCalculationResult.equals(Constants.UNDEFINED)) {
+            this.isProcessingRequests = false;
+            return;
         }
 
-        this.readingClientsAmount++;
+        this.multiplication *= Integer.parseInt(funcCalculationResult);
 
-        this.dataMapper.remove(channel);
-        System.out.println("Connection closed by client ... ");
+        /* Increased number of processed clients */
+        this.processedClientsAmount++;
+
+        /* Delete channel after receiving the result */
+        this.channelMapper.remove(channel);
         channel.close();
         key.cancel();
     }
 
-    public synchronized int getResult() {
-        return this.result;
+    private String[] getComputationData(SocketChannel channel) throws IOException {
+        Gson gson = new Gson();
+        ByteBuffer buffer = ByteBuffer.allocate(128);
+
+        int numRead = channel.read(buffer); /* Number of reading bytes */
+
+        byte[] data = new byte[numRead];
+        System.arraycopy(buffer.array(), 0, data, 0, numRead);
+
+        return gson.fromJson(new String(data), String[].class);
+    }
+
+    public synchronized int getMultiplication() {
+        return this.multiplication;
     }
 }
