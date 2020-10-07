@@ -21,26 +21,12 @@ public class SocketClient {
         if (threadName.equals(Constants.FUNC_F)) {
             Integer funcFResult = this.customFuncF(variant);
 
-            String message;
-
-            if (funcFResult == null) {
-                message = Arrays.toString(new String[]{Constants.FUNC_F, Constants.UNDEFINED});
-            } else {
-                message = Arrays.toString(new String[]{Constants.FUNC_F, funcFResult.toString()});
-            }
-
+            String message = Arrays.toString(new String[]{Constants.FUNC_F, funcFResult.toString()});
             bytes = message.getBytes();
         } else if (threadName.equals(Constants.FUNC_G)) {
             Integer funcGResult = this.customFuncG(variant);
 
-            String message;
-
-            if (funcGResult == null) {
-                message = Arrays.toString(new String[]{Constants.FUNC_G, Constants.UNDEFINED});
-            } else {
-                message = Arrays.toString(new String[]{Constants.FUNC_G, funcGResult.toString()});
-            }
-
+            String message = Arrays.toString(new String[]{Constants.FUNC_G, funcGResult.toString()});
             bytes = message.getBytes();
         }
 
@@ -56,23 +42,23 @@ public class SocketClient {
         /* Returned value = variant * 10 */
         switch (variant) {
             case 1:
-                Thread.sleep(5000);
+                Thread.sleep(3000);
                 return 10;
             case 2:
-                Thread.sleep(10000);
+                Thread.sleep(6000);
                 return 20;
             case 3:
-                Thread.sleep(5000);
+                Thread.sleep(3000);
                 return 0;
             case 4:
             case 6:
-                Thread.sleep(5000);
-                return null;
+                Thread.sleep(6000);
+                return Integer.MAX_VALUE;
             case 5:
-                Thread.sleep(5000);
+                Thread.sleep(3000);
                 return 50;
             default:
-                return null;
+                throw new Error("Provided incorrect number of variant!");
         }
     }
 
@@ -80,23 +66,23 @@ public class SocketClient {
         /* Returned value = variant * 100 */
             switch (variant) {
                 case 1:
-                    Thread.sleep(10000);
+                    Thread.sleep(6000);
                     return 100;
                 case 2:
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                     return 200;
                 case 3:
                 case 5:
-                    Thread.sleep(5000);
-                    return null;
+                    Thread.sleep(6000);
+                    return Integer.MAX_VALUE;
                 case 4:
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                     return 0;
                 case 6:
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                     return 600;
                 default:
-                    return null;
+                    throw new Error("Provided incorrect number of variant!");
             }
     }
 }

@@ -15,7 +15,6 @@ public class SocketServer {
     private Map<SocketChannel, List> channelMapper;
     private final InetSocketAddress listenAddress;
     private Integer multiplication = 1;
-    private String multiplicationMessage = "";
     private int processedClientsAmount = 0;
     private boolean isProcessingRequests = true;
 
@@ -27,7 +26,6 @@ public class SocketServer {
         this.selector = Selector.open();
         this.channelMapper = new HashMap<>();
         this.multiplication = 1;
-        this.multiplicationMessage = "";
         this.processedClientsAmount = 0;
         this.isProcessingRequests = true;
     }
@@ -104,8 +102,8 @@ public class SocketServer {
         String funcCalculationResult = funcCalculationData[1];
 
         /* If we got zero or undefined from func computation, we shouldn't wait for another one */
-        if (funcCalculationResult.equals("0") || funcCalculationResult.equals(Constants.UNDEFINED)) {
-            this.multiplicationMessage = funcCalculationResult;
+        if (funcCalculationResult.equals("0")) {
+            this.multiplication *= Integer.parseInt(funcCalculationResult);
             System.out.println("Got " + funcCalculationResult + " from " + funcName + " , stop computation ...");
 
             this.isProcessingRequests = false;
@@ -115,7 +113,6 @@ public class SocketServer {
         }
 
         this.multiplication *= Integer.parseInt(funcCalculationResult);
-        this.multiplicationMessage = this.multiplication.toString();
 
         /* Increased number of processed clients */
         this.processedClientsAmount++;
@@ -139,7 +136,7 @@ public class SocketServer {
         return gson.fromJson(new String(data), String[].class);
     }
 
-    public synchronized String getMultiplication() {
-        return this.multiplicationMessage;
+    public synchronized Integer getMultiplication() {
+        return this.multiplication;
     }
 }
