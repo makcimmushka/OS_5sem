@@ -8,8 +8,12 @@ import com.sockets.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         MainManager mainManager = new MainManager();
-        mainManager.interactiveMenu();
-        mainManager.start();
+
+        while (true) {
+            mainManager.interactiveMenu();
+            mainManager.start();
+        }
+
     }
 }
 

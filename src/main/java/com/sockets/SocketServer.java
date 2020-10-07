@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 
 public class SocketServer {
     private Selector selector;
-    private final Map<SocketChannel, List> channelMapper;
+    private Map<SocketChannel, List> channelMapper;
     private final InetSocketAddress listenAddress;
     private Integer multiplication = 1;
     private String multiplicationMessage = "";
@@ -21,12 +21,21 @@ public class SocketServer {
 
     public SocketServer(String address, int port) {
         this.listenAddress = new InetSocketAddress(address, port);
+    }
+
+    private void prepareServer() throws IOException {
+        this.selector = Selector.open();
         this.channelMapper = new HashMap<>();
+        this.multiplication = 1;
+        this.multiplicationMessage = "";
+        this.processedClientsAmount = 0;
+        this.isProcessingRequests = true;
     }
 
     /* Create server channel */
     public void startServer() throws IOException {
-        this.selector = Selector.open();
+        this.prepareServer();
+
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
         serverChannel.configureBlocking(false);
 
@@ -41,7 +50,7 @@ public class SocketServer {
             /* Wait for events */
             this.selector.select();
 
-            /* Iterate through keys */
+            /* Iterate through selector keys */
             Iterator keys = this.selector.selectedKeys().iterator();
 
             while (keys.hasNext()) {
@@ -70,6 +79,7 @@ public class SocketServer {
         }
 
         serverChannel.close();
+        this.selector.selectNow();
     }
 
     /* Accept a connection made to this channel's socket */
@@ -112,8 +122,9 @@ public class SocketServer {
 
         /* Delete channel after receiving the result */
         this.channelMapper.remove(channel);
-        channel.close();
         key.cancel();
+        this.selector.selectNow();
+        channel.close();
     }
 
     private String[] getComputationData(SocketChannel channel) throws IOException {

@@ -12,9 +12,14 @@ public class MainManager {
 
 
     public void interactiveMenu() {
-        while (this.variant == null) {
+        while (true) {
             this.demo.showVariants();
             this.variant = this.demo.inputVariant();
+
+            if (this.variant != null) {
+                break;
+            }
+
             System.out.println("Provided incorrect number of variant, try again!\n");
         }
     }
