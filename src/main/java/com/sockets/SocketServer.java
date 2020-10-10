@@ -17,9 +17,15 @@ public class SocketServer {
     private Integer multiplication = 1;
     private int processedClientsAmount = 0;
     private boolean isProcessingRequests = true;
+    private Integer variant = 1;
+    private List<Thread> clientsThreads = new ArrayList<>();
 
     public SocketServer(String address, int port) {
         this.listenAddress = new InetSocketAddress(address, port);
+    }
+
+    public void setVariant(Integer variant) {
+        this.variant = variant;
     }
 
     private void prepareServer() throws IOException {
@@ -31,7 +37,7 @@ public class SocketServer {
     }
 
     /* Create server channel */
-    public void startServer() throws IOException {
+    public void startServer() throws IOException, InterruptedException {
         this.prepareServer();
 
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
@@ -42,6 +48,26 @@ public class SocketServer {
         serverChannel.register(this.selector, SelectionKey.OP_ACCEPT);
 
         System.out.println("Server started ...");
+
+        Runnable client = () -> {
+            try {
+                new SocketClient().startClient(this.variant);
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+
+        Thread threadFuncF = new Thread(client, Constants.FUNC_F);
+        Thread threadFuncG = new Thread(client, Constants.FUNC_G);
+
+        this.clientsThreads.add(threadFuncF);
+        this.clientsThreads.add(threadFuncG);
+
+        threadFuncF.start();
+        threadFuncG.start();
+
+//        threadFuncF.join();
+//        threadFuncG.join();
 
         /* Accept only two sockets for funcF and funcG calculations */
         outer: while (this.processedClientsAmount < 2) {
@@ -76,6 +102,10 @@ public class SocketServer {
             }
         }
 
+        /* Close server channel and interrupt clients threads ... */
+        for (Thread clientThread: this.clientsThreads) {
+            clientThread.interrupt();
+        }
         serverChannel.close();
         this.selector.selectNow();
     }
@@ -136,7 +166,7 @@ public class SocketServer {
         return gson.fromJson(new String(data), String[].class);
     }
 
-    public synchronized Integer getMultiplication() {
+    public Integer getMultiplication() {
         return this.multiplication;
     }
 }

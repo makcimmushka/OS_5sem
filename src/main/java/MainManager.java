@@ -1,8 +1,7 @@
-import com.constants.Constants;
 import com.sockets.SocketClient;
 import com.sockets.SocketServer;
-
 import java.io.IOException;
+
 
 public class MainManager {
     private final SocketServer socketServer = new SocketServer("localhost", 7777);
@@ -17,6 +16,7 @@ public class MainManager {
             this.variant = this.demo.inputVariant();
 
             if (this.variant != null) {
+                this.socketServer.setVariant(this.variant);
                 break;
             }
 
@@ -24,11 +24,11 @@ public class MainManager {
         }
     }
 
-    public void start() throws InterruptedException {
+    public void start() throws InterruptedException, IOException {
         Runnable server = () -> {
             try {
                 this.socketServer.startServer();
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         };
@@ -41,20 +41,13 @@ public class MainManager {
             }
         };
 
-        Thread threadMain = new Thread(server);
+//        Thread threadMain = new Thread(server);
+//
+//        threadMain.start();
+//        threadMain.join();
 
-        Thread threadFuncF = new Thread(client, Constants.FUNC_F);
-        Thread threadFuncG = new Thread(client, Constants.FUNC_G);
+        this.socketServer.startServer();
 
-        threadMain.start();
-        Thread.sleep(3000); /* Waiting for starting server */
-
-        threadFuncF.start();
-        threadFuncG.start();
-
-        threadFuncF.join();
-        threadFuncG.join();
-        threadMain.join();
 
         System.out.println("Result of computations is: " + this.socketServer.getMultiplication());
     }

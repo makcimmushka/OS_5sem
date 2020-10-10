@@ -21,49 +21,60 @@ public class SocketClient {
         if (threadName.equals(Constants.FUNC_F)) {
             Integer funcFResult = this.customFuncF(variant);
 
-            String message = Arrays.toString(new String[]{Constants.FUNC_F, funcFResult.toString()});
-            bytes = message.getBytes();
+            if (funcFResult != null) {
+                String message = Arrays.toString(new String[]{Constants.FUNC_F, funcFResult.toString()});
+                bytes = message.getBytes();
+            }
         } else if (threadName.equals(Constants.FUNC_G)) {
             Integer funcGResult = this.customFuncG(variant);
 
-            String message = Arrays.toString(new String[]{Constants.FUNC_G, funcGResult.toString()});
-            bytes = message.getBytes();
+            if (funcGResult != null) {
+                String message = Arrays.toString(new String[]{Constants.FUNC_G, funcGResult.toString()});
+                bytes = message.getBytes();
+            }
         }
 
-        /* Send message to server */
-        ByteBuffer buffer = ByteBuffer.wrap(bytes);
-        client.write(buffer);
-        buffer.clear();
+        if (!Thread.currentThread().isInterrupted() || client.isRegistered()) {
+            /* Send message to server */
+            ByteBuffer buffer = ByteBuffer.wrap(bytes);
+            client.write(buffer);
+            buffer.clear();
 
-        client.close();
+            client.close();
+        }
     }
 
-    private Integer customFuncF(int variant) throws InterruptedException {
+    private Integer customFuncF(int variant) {
         /* Returned value = variant * 10 */
-        switch (variant) {
-            case 1:
-                Thread.sleep(3000);
-                return 10;
-            case 2:
-                Thread.sleep(6000);
-                return 20;
-            case 3:
-                Thread.sleep(3000);
-                return 0;
-            case 4:
-            case 6:
-                Thread.sleep(6000);
-                return Integer.MAX_VALUE;
-            case 5:
-                Thread.sleep(3000);
-                return 50;
-            default:
-                throw new Error("Provided incorrect number of variant!");
+        try {
+            switch (variant) {
+                case 1:
+                    Thread.sleep(3000);
+                    return 10;
+                case 2:
+                    Thread.sleep(6000);
+                    return 20;
+                case 3:
+                    Thread.sleep(3000);
+                    return 0;
+                case 4:
+                case 6:
+                    Thread.sleep(6000);
+                    return Integer.MAX_VALUE;
+                case 5:
+                    Thread.sleep(3000);
+                    return 50;
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
+
+        return null;
     }
 
     private Integer customFuncG(int variant) throws InterruptedException {
         /* Returned value = variant * 100 */
+        try {
             switch (variant) {
                 case 1:
                     Thread.sleep(6000);
@@ -81,8 +92,11 @@ public class SocketClient {
                 case 6:
                     Thread.sleep(3000);
                     return 600;
-                default:
-                    throw new Error("Provided incorrect number of variant!");
             }
+        } catch(InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        return null;
     }
 }
