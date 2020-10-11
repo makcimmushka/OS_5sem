@@ -1,6 +1,8 @@
 import com.constants.Constants;
 import com.sockets.SocketServer;
 import java.io.IOException;
+import java.util.HashMap;
+
 import sun.misc.Signal;
 
 
@@ -26,6 +28,16 @@ public class MainManager {
 
     public void onExit() {
         System.out.println("\nExited by user ...");
+
+        HashMap<String, String> results = this.socketServer.getResults();
+
+        if (results.get(Constants.FUNC_F) == null) {
+            System.out.println(Constants.FUNC_F + " has not been computed ...");
+        }
+
+        if (results.get(Constants.FUNC_G) == null) {
+            System.out.println(Constants.FUNC_G + " has not been computed ...");
+        }
 
         System.exit(Constants.EXIT_CODE);
     }

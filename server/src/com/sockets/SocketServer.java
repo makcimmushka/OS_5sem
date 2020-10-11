@@ -18,6 +18,7 @@ public class SocketServer {
     private boolean isProcessingRequests = true;
     private Integer variant = 1;
     private final List<Process> clientsProcesses = new ArrayList<>();
+    private HashMap<String, String> results = new HashMap<>();
 
     public SocketServer(String address, Integer port) {
         this.listenAddress = new InetSocketAddress(address, port);
@@ -27,11 +28,16 @@ public class SocketServer {
         this.variant = variant - 1;
     }
 
+    public HashMap<String, String> getResults() {
+        return this.results;
+    }
+
     private void prepareServer() throws IOException {
         this.selector = Selector.open();
         this.multiplication = 1;
         this.processedClientsAmount = 0;
         this.isProcessingRequests = true;
+        this.results = new HashMap<String, String>();
     }
 
     /* Create server channel */
@@ -127,6 +133,7 @@ public class SocketServer {
             System.out.println("Got " + funcCalculationResult + " from " + funcName);
         }
 
+        this.results.put(funcName, funcCalculationResult);
         this.multiplication *= Integer.parseInt(funcCalculationResult);
 
         /* Increased number of processed clients */
@@ -170,9 +177,5 @@ public class SocketServer {
 
     public Integer getMultiplication() {
         return this.multiplication;
-    }
-
-    public List<Process> getClientsProcesses() {
-        return this.clientsProcesses;
     }
 }
