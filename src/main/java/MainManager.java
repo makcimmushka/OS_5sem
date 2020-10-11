@@ -27,18 +27,6 @@ public class MainManager {
     public void onExit() {
         System.out.println("\nExited by user ...");
 
-        for (Thread clientThread: this.socketServer.getClientsThreads()) {
-            if (clientThread.getName().equals(Constants.FUNC_F)) {
-                if (clientThread.isAlive()) {
-                    System.out.println(Constants.FUNC_F + " has not been computed ...");
-                }
-            } else if (clientThread.getName().equals(Constants.FUNC_G)) {
-                if (clientThread.isAlive()) {
-                    System.out.println(Constants.FUNC_G + " has not been computed ...");
-                }
-            }
-        }
-
         System.exit(Constants.EXIT_CODE);
     }
 

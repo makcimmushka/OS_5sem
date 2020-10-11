@@ -1,3 +1,5 @@
+import com.sockets.SocketServer;
+
 public class Main {
     public static void main(String[] args) throws Exception {
         MainManager mainManager = new MainManager();
@@ -7,6 +9,7 @@ public class Main {
             mainManager.start();
         }
 
+//        new SocketServer("localhost", 7777).startServer();
     }
 }
 

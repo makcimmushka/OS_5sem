@@ -17,14 +17,14 @@ public class SocketServer {
     private int processedClientsAmount = 0;
     private boolean isProcessingRequests = true;
     private Integer variant = 1;
-    private final List<Thread> clientsThreads = new ArrayList<>();
+    private final List<Process> clientsProcesses = new ArrayList<>();
 
-    public SocketServer(String address, int port) {
+    public SocketServer(String address, Integer port) {
         this.listenAddress = new InetSocketAddress(address, port);
     }
 
     public void setVariant(Integer variant) {
-        this.variant = variant;
+        this.variant = variant - 1;
     }
 
     private void prepareServer() throws IOException {
@@ -47,23 +47,8 @@ public class SocketServer {
 
         System.out.println("Server started ...");
 
-        Runnable client = () -> {
-            try {
-                SocketClient socketClient = new SocketClient();
-                socketClient.startClient(this.variant);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        };
-
-        Thread threadFuncF = new Thread(client, Constants.FUNC_F);
-        Thread threadFuncG = new Thread(client, Constants.FUNC_G);
-
-        this.clientsThreads.add(threadFuncF);
-        this.clientsThreads.add(threadFuncG);
-
-        threadFuncF.start();
-        threadFuncG.start();
+        this.compute(Constants.FUNC_F);
+        this.compute(Constants.FUNC_G);
 
         /* Accept only two sockets for funcF and funcG calculations */
         outer:
@@ -98,16 +83,17 @@ public class SocketServer {
         }
 
         /* Close server channel and interrupt clients threads ... */
-        this.closeClientsThreads();
+        this.closeClientsProcesses();
         serverChannel.close();
         this.selector.selectNow();
     }
 
-    public void closeClientsThreads() {
-        for (Thread clientThread : this.clientsThreads) {
-            clientThread.interrupt();
+    public void closeClientsProcesses() {
+        for (Process clientProcess : this.clientsProcesses) {
+            clientProcess.destroy();
         }
     }
+
 
 
     /* Accept a connection made to this channel's socket */
@@ -164,11 +150,29 @@ public class SocketServer {
         return gson.fromJson(new String(data), String[].class);
     }
 
+    private void compute(String function) {
+        ProcessBuilder clientBuilder = new ProcessBuilder(
+                "java",
+                "-jar",
+                "/home/maxim/OS_5sem/out/artifacts/client_jar/client.jar",
+                this.listenAddress.getHostName(),
+                this.listenAddress.getPort() + "",
+                function, // funcF or funcG
+                variant.toString() // 0..5
+        );
+
+        try {
+            this.clientsProcesses.add(clientBuilder.start());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Integer getMultiplication() {
         return this.multiplication;
     }
 
-    public List<Thread> getClientsThreads() {
-        return this.clientsThreads;
+    public List<Process> getClientsProcesses() {
+        return this.clientsProcesses;
     }
 }
