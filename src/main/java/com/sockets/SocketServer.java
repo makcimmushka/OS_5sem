@@ -49,8 +49,9 @@ public class SocketServer {
 
         Runnable client = () -> {
             try {
-                new SocketClient().startClient(this.variant);
-            } catch (IOException e) {
+                SocketClient socketClient = new SocketClient();
+                socketClient.startClient(this.variant);
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         };

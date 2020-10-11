@@ -1,6 +1,7 @@
 package com.sockets;
 
 import com.constants.Constants;
+import spos.lab1.demo.IntOps;
 
 import java.io.IOException;
 import java.net.*;
@@ -8,39 +9,45 @@ import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.Arrays;
 
+
 public class SocketClient {
-    public void startClient(int variant) throws IOException {
-        InetSocketAddress hostAddress = new InetSocketAddress("localhost", 7777);
-        SocketChannel client = SocketChannel.open();
-        client.connect(hostAddress);
+    public void startClient(int variant) throws IOException, InterruptedException {
+        try {
+            InetSocketAddress hostAddress = new InetSocketAddress("localhost", 7777);
+            SocketChannel client = SocketChannel.open();
+            client.connect(hostAddress);
 
-        String threadName = Thread.currentThread().getName();
+            String threadName = Thread.currentThread().getName();
 
-        byte[] bytes = {};
+            if (!Thread.currentThread().isInterrupted() || client.isRegistered()) {
+                byte[] bytes = {};
 
-        if (threadName.equals(Constants.FUNC_F)) {
-            Integer funcFResult = this.customFuncF(variant);
+                if (threadName.equals(Constants.FUNC_F)) {
+//            Integer funcFResult = this.customFuncF(variant);
+                    Integer funcFResult = IntOps.funcF(variant - 1);
+                    if (funcFResult != null) {
+                        String message = Arrays.toString(new String[]{Constants.FUNC_F, funcFResult.toString()});
+                        bytes = message.getBytes();
+                    }
+                } else if (threadName.equals(Constants.FUNC_G)) {
+//            Integer funcGResult = this.customFuncG(variant);
+                    Integer funcGResult = IntOps.funcG(variant - 1);
 
-            if (funcFResult != null) {
-                String message = Arrays.toString(new String[]{Constants.FUNC_F, funcFResult.toString()});
-                bytes = message.getBytes();
+                    if (funcGResult != null) {
+                        String message = Arrays.toString(new String[]{Constants.FUNC_G, funcGResult.toString()});
+                        bytes = message.getBytes();
+                    }
+                }
+
+                /* Send message to server */
+                ByteBuffer buffer = ByteBuffer.wrap(bytes);
+                client.write(buffer);
+                buffer.clear();
+
+                client.close();
             }
-        } else if (threadName.equals(Constants.FUNC_G)) {
-            Integer funcGResult = this.customFuncG(variant);
-
-            if (funcGResult != null) {
-                String message = Arrays.toString(new String[]{Constants.FUNC_G, funcGResult.toString()});
-                bytes = message.getBytes();
-            }
-        }
-
-        if (!Thread.currentThread().isInterrupted() || client.isRegistered()) {
-            /* Send message to server */
-            ByteBuffer buffer = ByteBuffer.wrap(bytes);
-            client.write(buffer);
-            buffer.clear();
-
-            client.close();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -93,7 +100,7 @@ public class SocketClient {
                     Thread.sleep(3000);
                     return 600;
             }
-        } catch(InterruptedException e) {
+        } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
