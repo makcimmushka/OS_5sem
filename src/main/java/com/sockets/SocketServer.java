@@ -12,7 +12,6 @@ import com.google.gson.Gson;
 
 public class SocketServer {
     private Selector selector;
-    private Map<SocketChannel, List> channelMapper;
     private final InetSocketAddress listenAddress;
     private Integer multiplication = 1;
     private int processedClientsAmount = 0;
@@ -30,7 +29,6 @@ public class SocketServer {
 
     private void prepareServer() throws IOException {
         this.selector = Selector.open();
-        this.channelMapper = new HashMap<>();
         this.multiplication = 1;
         this.processedClientsAmount = 0;
         this.isProcessingRequests = true;
@@ -99,12 +97,17 @@ public class SocketServer {
         }
 
         /* Close server channel and interrupt clients threads ... */
-        for (Thread clientThread : this.clientsThreads) {
-            clientThread.interrupt();
-        }
+        this.closeClientsThreads();
         serverChannel.close();
         this.selector.selectNow();
     }
+
+    public void closeClientsThreads() {
+        for (Thread clientThread : this.clientsThreads) {
+            clientThread.interrupt();
+        }
+    }
+
 
     /* Accept a connection made to this channel's socket */
     private synchronized void accept(SelectionKey key) throws IOException {
@@ -115,7 +118,6 @@ public class SocketServer {
         System.out.println("Server connected with client ...");
 
         /* Register channel with selector for further IO read operation */
-        this.channelMapper.put(channel, new ArrayList<>());
         channel.register(this.selector, SelectionKey.OP_READ);
     }
 
@@ -144,7 +146,6 @@ public class SocketServer {
         this.processedClientsAmount++;
 
         /* Delete channel after receiving the result */
-        this.channelMapper.remove(channel);
         key.cancel();
         this.selector.selectNow();
         channel.close();
@@ -164,5 +165,9 @@ public class SocketServer {
 
     public Integer getMultiplication() {
         return this.multiplication;
+    }
+
+    public List<Thread> getClientsThreads() {
+        return this.clientsThreads;
     }
 }
