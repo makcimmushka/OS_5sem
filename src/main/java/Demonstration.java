@@ -1,9 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class Demonstration {
     public void showVariants() {
         System.out.println("Possible variants: ");

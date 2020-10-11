@@ -25,30 +25,7 @@ public class MainManager {
     }
 
     public void start() throws InterruptedException, IOException {
-        Runnable server = () -> {
-            try {
-                this.socketServer.startServer();
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        };
-
-        Runnable client = () -> {
-            try {
-                this.socketClient.startClient(variant);
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        };
-
-//        Thread threadMain = new Thread(server);
-//
-//        threadMain.start();
-//        threadMain.join();
-
         this.socketServer.startServer();
-
-
         System.out.println("Result of computations is: " + this.socketServer.getMultiplication());
     }
 }

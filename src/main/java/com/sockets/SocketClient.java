@@ -9,7 +9,7 @@ import java.nio.channels.*;
 import java.util.Arrays;
 
 public class SocketClient {
-    public void startClient(int variant) throws IOException, InterruptedException {
+    public void startClient(int variant) throws IOException {
         InetSocketAddress hostAddress = new InetSocketAddress("localhost", 7777);
         SocketChannel client = SocketChannel.open();
         client.connect(hostAddress);
@@ -72,7 +72,7 @@ public class SocketClient {
         return null;
     }
 
-    private Integer customFuncG(int variant) throws InterruptedException {
+    private Integer customFuncG(int variant) {
         /* Returned value = variant * 100 */
         try {
             switch (variant) {

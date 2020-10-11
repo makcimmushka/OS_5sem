@@ -18,7 +18,7 @@ public class SocketServer {
     private int processedClientsAmount = 0;
     private boolean isProcessingRequests = true;
     private Integer variant = 1;
-    private List<Thread> clientsThreads = new ArrayList<>();
+    private final List<Thread> clientsThreads = new ArrayList<>();
 
     public SocketServer(String address, int port) {
         this.listenAddress = new InetSocketAddress(address, port);
@@ -37,7 +37,7 @@ public class SocketServer {
     }
 
     /* Create server channel */
-    public void startServer() throws IOException, InterruptedException {
+    public void startServer() throws IOException {
         this.prepareServer();
 
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
@@ -52,7 +52,7 @@ public class SocketServer {
         Runnable client = () -> {
             try {
                 new SocketClient().startClient(this.variant);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         };
@@ -66,11 +66,9 @@ public class SocketServer {
         threadFuncF.start();
         threadFuncG.start();
 
-//        threadFuncF.join();
-//        threadFuncG.join();
-
         /* Accept only two sockets for funcF and funcG calculations */
-        outer: while (this.processedClientsAmount < 2) {
+        outer:
+        while (this.processedClientsAmount < 2) {
             /* Wait for events */
             this.selector.select();
 
@@ -90,9 +88,7 @@ public class SocketServer {
 
                 if (key.isAcceptable()) {
                     this.accept(key);
-                }
-
-                else if (key.isReadable()) {
+                } else if (key.isReadable()) {
                     this.read(key);
 
                     if (!this.isProcessingRequests) {
@@ -103,7 +99,7 @@ public class SocketServer {
         }
 
         /* Close server channel and interrupt clients threads ... */
-        for (Thread clientThread: this.clientsThreads) {
+        for (Thread clientThread : this.clientsThreads) {
             clientThread.interrupt();
         }
         serverChannel.close();
