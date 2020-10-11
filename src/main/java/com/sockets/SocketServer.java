@@ -51,7 +51,7 @@ public class SocketServer {
             try {
                 SocketClient socketClient = new SocketClient();
                 socketClient.startClient(this.variant);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         };

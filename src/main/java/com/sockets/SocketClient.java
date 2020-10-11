@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 
 public class SocketClient {
-    public void startClient(int variant) throws IOException, InterruptedException {
+    public void startClient(int variant) throws IOException {
         try {
             InetSocketAddress hostAddress = new InetSocketAddress("localhost", 7777);
             SocketChannel client = SocketChannel.open();
