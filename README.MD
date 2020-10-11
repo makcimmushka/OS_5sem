@@ -3,5 +3,5 @@
   - Cancellation on Ctrl + C combination
   - To run project use this command: 
   ```sh
-$ java -cp out/lab1_OS.jar Main
+$ java -jar out/artifacts/server_jar/server.jar
 ```
