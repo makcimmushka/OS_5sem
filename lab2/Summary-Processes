@@ -1,134 +1,209 @@
-Process: 0 registered... (1333 100 0 0)
-Process: 0 I/O blocked... (1333 100 100 100)
-Process: 1 registered... (1436 500 0 0)
-Process: 1 I/O blocked... (1436 500 500 500)
-Process: 0 registered... (1333 100 100 100)
-Process: 0 I/O blocked... (1333 100 200 200)
-Process: 1 registered... (1436 500 500 500)
-Process: 1 I/O blocked... (1436 500 1000 1000)
-Process: 0 registered... (1333 100 200 200)
-Process: 0 I/O blocked... (1333 100 300 300)
-Process: 1 registered... (1436 500 1000 1000)
-Process: 1 completed... (1436 500 1436 1436)
-Process: 0 registered... (1333 100 300 300)
-Process: 0 I/O blocked... (1333 100 400 400)
-Process: 2 registered... (1483 30 0 0)
-Process: 2 I/O blocked... (1483 30 30 30)
-Process: 0 registered... (1333 100 400 400)
-Process: 0 I/O blocked... (1333 100 500 500)
-Process: 2 registered... (1483 30 30 30)
-Process: 2 I/O blocked... (1483 30 60 60)
-Process: 0 registered... (1333 100 500 500)
-Process: 0 I/O blocked... (1333 100 600 600)
-Process: 2 registered... (1483 30 60 60)
-Process: 2 I/O blocked... (1483 30 90 90)
-Process: 0 registered... (1333 100 600 600)
-Process: 0 I/O blocked... (1333 100 700 700)
-Process: 2 registered... (1483 30 90 90)
-Process: 2 I/O blocked... (1483 30 120 120)
-Process: 0 registered... (1333 100 700 700)
-Process: 0 I/O blocked... (1333 100 800 800)
-Process: 2 registered... (1483 30 120 120)
-Process: 2 I/O blocked... (1483 30 150 150)
-Process: 0 registered... (1333 100 800 800)
-Process: 0 I/O blocked... (1333 100 900 900)
-Process: 2 registered... (1483 30 150 150)
-Process: 2 I/O blocked... (1483 30 180 180)
-Process: 0 registered... (1333 100 900 900)
-Process: 0 I/O blocked... (1333 100 1000 1000)
-Process: 2 registered... (1483 30 180 180)
-Process: 2 I/O blocked... (1483 30 210 210)
-Process: 0 registered... (1333 100 1000 1000)
-Process: 0 I/O blocked... (1333 100 1100 1100)
-Process: 2 registered... (1483 30 210 210)
-Process: 2 I/O blocked... (1483 30 240 240)
-Process: 0 registered... (1333 100 1100 1100)
-Process: 0 I/O blocked... (1333 100 1200 1200)
-Process: 2 registered... (1483 30 240 240)
-Process: 2 I/O blocked... (1483 30 270 270)
-Process: 0 registered... (1333 100 1200 1200)
-Process: 0 I/O blocked... (1333 100 1300 1300)
-Process: 2 registered... (1483 30 270 270)
-Process: 2 I/O blocked... (1483 30 300 300)
-Process: 0 registered... (1333 100 1300 1300)
-Process: 0 completed... (1333 100 1333 1333)
-Process: 2 registered... (1483 30 300 300)
-Process: 2 I/O blocked... (1483 30 330 330)
-Process: 2 registered... (1483 30 330 330)
-Process: 2 I/O blocked... (1483 30 360 360)
-Process: 2 registered... (1483 30 360 360)
-Process: 2 I/O blocked... (1483 30 390 390)
-Process: 2 registered... (1483 30 390 390)
-Process: 2 I/O blocked... (1483 30 420 420)
-Process: 2 registered... (1483 30 420 420)
-Process: 2 I/O blocked... (1483 30 450 450)
-Process: 2 registered... (1483 30 450 450)
-Process: 2 I/O blocked... (1483 30 480 480)
-Process: 2 registered... (1483 30 480 480)
-Process: 2 I/O blocked... (1483 30 510 510)
-Process: 2 registered... (1483 30 510 510)
-Process: 2 I/O blocked... (1483 30 540 540)
-Process: 2 registered... (1483 30 540 540)
-Process: 2 I/O blocked... (1483 30 570 570)
-Process: 2 registered... (1483 30 570 570)
-Process: 2 I/O blocked... (1483 30 600 600)
-Process: 2 registered... (1483 30 600 600)
-Process: 2 I/O blocked... (1483 30 630 630)
-Process: 2 registered... (1483 30 630 630)
-Process: 2 I/O blocked... (1483 30 660 660)
-Process: 2 registered... (1483 30 660 660)
-Process: 2 I/O blocked... (1483 30 690 690)
-Process: 2 registered... (1483 30 690 690)
-Process: 2 I/O blocked... (1483 30 720 720)
-Process: 2 registered... (1483 30 720 720)
-Process: 2 I/O blocked... (1483 30 750 750)
-Process: 2 registered... (1483 30 750 750)
-Process: 2 I/O blocked... (1483 30 780 780)
-Process: 2 registered... (1483 30 780 780)
-Process: 2 I/O blocked... (1483 30 810 810)
-Process: 2 registered... (1483 30 810 810)
-Process: 2 I/O blocked... (1483 30 840 840)
-Process: 2 registered... (1483 30 840 840)
-Process: 2 I/O blocked... (1483 30 870 870)
-Process: 2 registered... (1483 30 870 870)
-Process: 2 I/O blocked... (1483 30 900 900)
-Process: 2 registered... (1483 30 900 900)
-Process: 2 I/O blocked... (1483 30 930 930)
-Process: 2 registered... (1483 30 930 930)
-Process: 2 I/O blocked... (1483 30 960 960)
-Process: 2 registered... (1483 30 960 960)
-Process: 2 I/O blocked... (1483 30 990 990)
-Process: 2 registered... (1483 30 990 990)
-Process: 2 I/O blocked... (1483 30 1020 1020)
-Process: 2 registered... (1483 30 1020 1020)
-Process: 2 I/O blocked... (1483 30 1050 1050)
-Process: 2 registered... (1483 30 1050 1050)
-Process: 2 I/O blocked... (1483 30 1080 1080)
-Process: 2 registered... (1483 30 1080 1080)
-Process: 2 I/O blocked... (1483 30 1110 1110)
-Process: 2 registered... (1483 30 1110 1110)
-Process: 2 I/O blocked... (1483 30 1140 1140)
-Process: 2 registered... (1483 30 1140 1140)
-Process: 2 I/O blocked... (1483 30 1170 1170)
-Process: 2 registered... (1483 30 1170 1170)
-Process: 2 I/O blocked... (1483 30 1200 1200)
-Process: 2 registered... (1483 30 1200 1200)
-Process: 2 I/O blocked... (1483 30 1230 1230)
-Process: 2 registered... (1483 30 1230 1230)
-Process: 2 I/O blocked... (1483 30 1260 1260)
-Process: 2 registered... (1483 30 1260 1260)
-Process: 2 I/O blocked... (1483 30 1290 1290)
-Process: 2 registered... (1483 30 1290 1290)
-Process: 2 I/O blocked... (1483 30 1320 1320)
-Process: 2 registered... (1483 30 1320 1320)
-Process: 2 I/O blocked... (1483 30 1350 1350)
-Process: 2 registered... (1483 30 1350 1350)
-Process: 2 I/O blocked... (1483 30 1380 1380)
-Process: 2 registered... (1483 30 1380 1380)
-Process: 2 I/O blocked... (1483 30 1410 1410)
-Process: 2 registered... (1483 30 1410 1410)
-Process: 2 I/O blocked... (1483 30 1440 1440)
-Process: 2 registered... (1483 30 1440 1440)
-Process: 2 I/O blocked... (1483 30 1470 1470)
-Process: 2 registered... (1483 30 1470 1470)
-Process: 2 completed... (1483 30 1483 1483)
+30ms 
+Process joined queue
+Process: 2 (1347 30 0)
+30ms 
+Process: 2 registered... (1347 30 0)
+100ms 
+Process joined queue
+Process: 0 (1273 100 0)
+130ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 100)
+130ms 
+Process: 0 registered... (1273 100 0)
+230ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 100)
+230ms 
+Process: 2 registered... (1347 30 100)
+330ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 200)
+330ms 
+Process: 0 registered... (1273 100 100)
+430ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 200)
+430ms 
+Process: 2 registered... (1347 30 200)
+500ms 
+Process joined queue
+Process: 1 (1291 500 0)
+530ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 300)
+530ms 
+Process: 0 registered... (1273 100 200)
+630ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 300)
+630ms 
+Process: 1 registered... (1291 500 0)
+730ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 100)
+730ms 
+Process: 2 registered... (1347 30 300)
+830ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 400)
+830ms 
+Process: 0 registered... (1273 100 300)
+930ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 400)
+930ms 
+Process: 1 registered... (1291 500 100)
+1030ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 200)
+1030ms 
+Process: 2 registered... (1347 30 400)
+1130ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 500)
+1130ms 
+Process: 0 registered... (1273 100 400)
+1230ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 500)
+1230ms 
+Process: 1 registered... (1291 500 200)
+1330ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 300)
+1330ms 
+Process: 2 registered... (1347 30 500)
+1430ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 600)
+1430ms 
+Process: 0 registered... (1273 100 500)
+1530ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 600)
+1530ms 
+Process: 1 registered... (1291 500 300)
+1630ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 400)
+1630ms 
+Process: 2 registered... (1347 30 600)
+1730ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 700)
+1730ms 
+Process: 0 registered... (1273 100 600)
+1830ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 700)
+1830ms 
+Process: 1 registered... (1291 500 400)
+1930ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 500)
+1930ms 
+Process: 2 registered... (1347 30 700)
+2030ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 800)
+2030ms 
+Process: 0 registered... (1273 100 700)
+2130ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 800)
+2130ms 
+Process: 1 registered... (1291 500 500)
+2230ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 600)
+2230ms 
+Process: 2 registered... (1347 30 800)
+2330ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 900)
+2330ms 
+Process: 0 registered... (1273 100 800)
+2430ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 900)
+2430ms 
+Process: 1 registered... (1291 500 600)
+2530ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 700)
+2530ms 
+Process: 2 registered... (1347 30 900)
+2630ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 1000)
+2630ms 
+Process: 0 registered... (1273 100 900)
+2730ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 1000)
+2730ms 
+Process: 1 registered... (1291 500 700)
+2830ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 800)
+2830ms 
+Process: 2 registered... (1347 30 1000)
+2930ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 1100)
+2930ms 
+Process: 0 registered... (1273 100 1000)
+3030ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 1100)
+3030ms 
+Process: 1 registered... (1291 500 800)
+3130ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 900)
+3130ms 
+Process: 2 registered... (1347 30 1100)
+3230ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 1200)
+3230ms 
+Process: 0 registered... (1273 100 1100)
+3330ms 
+Quantum time expired
+Process: 0 forced out... (1273 100 1200)
+3330ms 
+Process: 1 registered... (1291 500 900)
+3430ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 1000)
+3430ms 
+Process: 2 registered... (1347 30 1200)
+3530ms 
+Quantum time expired
+Process: 2 forced out... (1347 30 1300)
+3530ms 
+Process: 0 registered... (1273 100 1200)
+3603ms 
+Quantum time reset
+Process: 0 completed... (1273 100 1273)
+3603ms 
+Process: 1 registered... (1291 500 1000)
+3703ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 1100)
+3703ms 
+Process: 2 registered... (1347 30 1300)
+3750ms 
+Quantum time reset
+Process: 2 completed... (1347 30 1347)
+3750ms 
+Process: 1 registered... (1291 500 1100)
+3850ms 
+Quantum time expired
+Process: 1 forced out... (1291 500 1200)
+3850ms 
+Process: 1 registered... (1291 500 1200)
+3941ms 
+Quantum time reset
+Process: 1 completed... (1291 500 1291)
