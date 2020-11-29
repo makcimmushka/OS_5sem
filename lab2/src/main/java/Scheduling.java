@@ -94,8 +94,8 @@ public class Scheduling {
 
         for (i = 0; i < size; i++) {
             sProcess process = (sProcess) processVector.elementAt(i);
-            System.out.println("process " + i + " " + process.cputime + " " + process.ioblocking + " " +
-                    process.cpudone + " " + process.numblocked);
+            System.out.println("process " + i + " " + process.cpuTime + " " + process.delay + " " +
+                    process.cpuDone + " " + process.numBlocked);
         }
 
         System.out.println("runtime " + runtime);
@@ -128,8 +128,8 @@ public class Scheduling {
                     X = Common.R1();
                 }
                 X = X * standardDev;
-                int cputime = (int) X + meanDev;
-                processVector.addElement(new sProcess(cputime, i * 100, 0, 0, 0));
+                int cpuTime = (int) X + meanDev;
+                processVector.addElement(new sProcess(cpuTime, i * 100, 0, 0, 0));
                 i++;
             }
         }
@@ -156,31 +156,31 @@ public class Scheduling {
                     out.print("\t");
                 }
 
-                out.print(process.cputime);
+                out.print(process.cpuTime);
 
-                if (process.cputime < 100) {
+                if (process.cpuTime < 100) {
                     out.print(" (ms)\t\t");
                 } else {
                     out.print(" (ms)\t");
                 }
 
-                out.print(process.ioblocking);
+                out.print(process.delay);
 
-                if (process.ioblocking < 100) {
+                if (process.delay < 100) {
                     out.print(" (ms)\t\t");
                 } else {
                     out.print(" (ms)\t");
                 }
 
-                out.print(process.cpudone);
+                out.print(process.cpuDone);
 
-                if (process.cpudone < 100) {
+                if (process.cpuDone < 100) {
                     out.print(" (ms)\t\t");
                 } else {
                     out.print(" (ms)\t");
                 }
 
-                out.println(process.numblocked + " times");
+                out.println(process.numBlocked + " times");
             }
 
             out.close();
