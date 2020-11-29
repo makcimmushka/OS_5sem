@@ -1,15 +1,15 @@
 public class sProcess {
-  public int cputime;
-  public int ioblocking;
-  public int cpudone;
-  public int ionext;
-  public int numblocked;
+    public int cpuTime;
+    public int delay;
+    public int cpuDone;
+    public int ionext;
+    public int numBlocked;
 
-  public sProcess (int cputime, int ioblocking, int cpudone, int ionext, int numblocked) {
-    this.cputime = cputime;
-    this.ioblocking = ioblocking;
-    this.cpudone = cpudone;
-    this.ionext = ionext;
-    this.numblocked = numblocked;
-  } 	
+    public sProcess(int cpuTime, int delay, int cpuDone, int ionext, int numBlocked) {
+        this.cpuTime = cpuTime;
+        this.delay = delay;
+        this.cpuDone = cpuDone;
+        this.ionext = ionext;
+        this.numBlocked = numBlocked;
+    }
 }
